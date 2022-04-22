@@ -9,3 +9,8 @@ class LogEntry(object):
     def __init__(self, timestamp, content):
         self.timestamp = datetime.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S.%f")
         self.content = content
+
+    @classmethod
+    def from_log_string(cls, log_string):
+        timestamp, content = cls.LOG_ENTRY_REGEX.findall(log_string)[0]
+        return cls(timestamp, content)
