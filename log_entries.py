@@ -50,3 +50,10 @@ class LogEntry(object):
         """
         timestamp, content = cls.LOG_ENTRY_REGEX.findall(log_string)[0]
         return cls(timestamp, content)
+
+
+def parse_log_line(log_line):
+
+    if LogEntry.LOG_ENTRY_REGEX.match(log_line):
+        return LogEntry.from_log_string(log_line)
+
