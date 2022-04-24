@@ -1,5 +1,6 @@
 import unittest
 import logparse.parse as parse
+from logparse.entries import LogEntry
 import io
 
 class TestParseLogLine(unittest.TestCase):
@@ -8,7 +9,7 @@ class TestParseLogLine(unittest.TestCase):
 
         log_line = "2021-02-09 13:11:29.123	test log entry"
         entry = parse.parse_log_line(log_line)
-        self.assertIsInstance(entry, parse.LogEntry)
+        self.assertIsInstance(entry, LogEntry)
         
     def test_parse_log_line_invalid_input(self):
         not_log_line = "This is not a valid log entry"
@@ -30,7 +31,7 @@ class TestParseLogFile(unittest.TestCase):
 
         self.assertEqual(len(entries), 3)
         for entry in entries:
-            self.assertIsInstance(entry, parse.LogEntry)
+            self.assertIsInstance(entry, LogEntry)
 
     def test_parse_log_file_divided_entries(self):
         lines = [
@@ -47,7 +48,7 @@ class TestParseLogFile(unittest.TestCase):
 
         self.assertEqual(len(entries), 3)
         for entry in entries:
-            self.assertIsInstance(entry, parse.LogEntry)
+            self.assertIsInstance(entry, LogEntry)
         
     def test_parse_log_file_no_entries(self):
         lines = [
