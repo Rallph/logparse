@@ -1,7 +1,7 @@
 import unittest
 import log_entries
 
-class TestLogEntries(unittest.TestCase):
+class TestParseLogLine(unittest.TestCase):
 
     def test_parse_log_line_valid_input(self):
 
