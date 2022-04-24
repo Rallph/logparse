@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 import argparse
-import parse
+import logparse.parse as parse
 
 def main():
     arg_parser = argparse.ArgumentParser(

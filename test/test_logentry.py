@@ -1,5 +1,5 @@
 import unittest
-import parse
+import logparse.parse as parse
 import datetime
 
 class TestLogEntry(unittest.TestCase):
