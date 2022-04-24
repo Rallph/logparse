@@ -1,3 +1,5 @@
+from .entries import LogEntry
+
 
 def parse_log_line(log_line):
 
