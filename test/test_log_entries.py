@@ -1,5 +1,5 @@
 import unittest
-import log_entries
+import parse
 import io
 
 class TestParseLogLine(unittest.TestCase):
@@ -7,12 +7,12 @@ class TestParseLogLine(unittest.TestCase):
     def test_parse_log_line_valid_input(self):
 
         log_line = "2021-02-09 13:11:29.123	test log entry"
-        entry = log_entries.parse_log_line(log_line)
-        self.assertIsInstance(entry, log_entries.LogEntry)
+        entry = parse.parse_log_line(log_line)
+        self.assertIsInstance(entry, parse.LogEntry)
         
     def test_parse_log_line_invalid_input(self):
         not_log_line = "This is not a valid log entry"
-        entry = log_entries.parse_log_line(not_log_line)
+        entry = parse.parse_log_line(not_log_line)
         self.assertEqual(entry, None)
 
 class TestParseLogFile(unittest.TestCase):
@@ -26,11 +26,11 @@ class TestParseLogFile(unittest.TestCase):
         ]
 
         log_file = io.StringIO('\n'.join(lines))
-        entries = log_entries.parse_log_file(log_file)
+        entries = parse.parse_log_file(log_file)
 
         self.assertEqual(len(entries), 3)
         for entry in entries:
-            self.assertIsInstance(entry, log_entries.LogEntry)
+            self.assertIsInstance(entry, parse.LogEntry)
 
     def test_parse_log_file_divided_entries(self):
         lines = [
@@ -43,11 +43,11 @@ class TestParseLogFile(unittest.TestCase):
         ]
 
         log_file = io.StringIO('\n'.join(lines))
-        entries = log_entries.parse_log_file(log_file)
+        entries = parse.parse_log_file(log_file)
 
         self.assertEqual(len(entries), 3)
         for entry in entries:
-            self.assertIsInstance(entry, log_entries.LogEntry)
+            self.assertIsInstance(entry, parse.LogEntry)
         
     def test_parse_log_file_no_entries(self):
         lines = [
@@ -57,6 +57,6 @@ class TestParseLogFile(unittest.TestCase):
         ]
 
         log_file = io.StringIO('\n'.join(lines))
-        entries = log_entries.parse_log_file(log_file)
+        entries = parse.parse_log_file(log_file)
 
         self.assertEqual(len(entries), 0)
