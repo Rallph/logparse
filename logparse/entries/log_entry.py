@@ -6,6 +6,11 @@ class LogEntry(object):
     A class to represent a generic entry in a log file. A log entry is characterized by
     a string consisting of a datetime stamp followed by arbitrary text
 
+    Class variables
+    ---------------
+    LOG_ENTRY_REGEX : re.Pattern
+        The regular expression to match generic log entries
+
     Attributes
     ----------
     timestamp : datetime.datetime
