@@ -62,3 +62,14 @@ def parse_log_file(log_file):
             entries.append(entry)
 
     return entries
+
+def compute_test_case_dos_time(test_case_messages):
+    initial_request = next(filter(lambda msg : msg.is_request() , test_case_messages), None)
+    response = next(filter(lambda msg : msg.is_response(), test_case_messages), None)
+
+    if not initial_request or not response:
+        return None
+
+    if test_case_messages.index(response) != (test_case_messages.index(initial_request) + 1):
+        delta = response.timestamp - initial_request.timestamp
+        return delta
