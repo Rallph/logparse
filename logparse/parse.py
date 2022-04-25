@@ -12,6 +12,7 @@ Functions:
 
 
 from logparse import entries
+import itertools
 
 
 def parse_log_line(log_line):
@@ -62,6 +63,14 @@ def parse_log_file(log_file):
             entries.append(entry)
 
     return entries
+
+def divide_into_can_fd_test_cases(log_entries):
+        can_fd_entries = [entry for entry in log_entries if isinstance(entry, entries.CANFDMessage)]
+        divided_entries_iterator = itertools.groupby(can_fd_entries, lambda msg: msg.test_num)
+        
+        organized_entries = [(test_num, list(can_fd_messages)) for test_num, can_fd_messages in divided_entries_iterator]
+        return organized_entries
+
 
 def compute_test_case_dos_time(test_case_messages):
     initial_request = next(filter(lambda msg : msg.is_request() , test_case_messages), None)

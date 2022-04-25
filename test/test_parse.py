@@ -68,6 +68,33 @@ class TestParseLogFile(unittest.TestCase):
 
         self.assertEqual(len(entries), 0)
 
+class TestDivideIntoTestCases(unittest.TestCase):
+
+    def test_divide_into_test_cases_normal(self):
+        lines = [
+            '2021-02-09 13:10:55.876		CAN-FD	0	Tx	11111111  	8	02 10 03 00 00 00 00 00                 	Instrumentation | Attempt | Instrumentation request_14DA45F1',
+            '2021-02-09 13:10:55.878		CAN-FD	0	Rx	99999999  	8	06 50 03 00 64 01 F4 55                 	Instrumentation | Response | Instrumentation response_14DA45F1',
+            '2021-02-09 13:10:55.909		CAN-FD	1	Tx	F3794DC   	10	17 5F E5 45 6F 98 5D AD 0D 42 A0 D7 00 5C D5 F7 	CAN_FD_raw_frame_invalid_frame | ID1_dlc_=_data | _14DA45F1',
+            '2021-02-09 13:10:56.012		CAN-FD	1	Tx	11111111  	8	02 10 03 00 00 00 00 00                 	Instrumentation | Instrumentation after | Instrumentation request_14DA45F1',
+            '2021-02-09 13:10:56.018		CAN-FD	1	Rx	99999999  	8	06 50 03 00 64 01 F4 55                 	Instrumentation | Response | Instrumentation response_14DA45F1'
+        ]
+
+        can_fd_messages = [CANFDMessage.from_log_string(line) for line in lines]
+
+        organized = parse.divide_into_can_fd_test_cases(can_fd_messages)
+
+        case_0_messages = organized[0][1]
+        self.assertEqual(2, len(case_0_messages))
+        for msg in case_0_messages:
+            self.assertEqual(msg.test_num, 0)
+
+        case_1_messages = organized[1][1]
+        self.assertEqual(3, len(case_1_messages))
+        for msg in case_1_messages:
+            self.assertEqual(msg.test_num, 1)
+            
+
+
 class TestComputeDosTime(unittest.TestCase):
 
     def test_compute_dos_time_dos_present(self):
