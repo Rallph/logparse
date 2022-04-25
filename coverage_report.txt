@@ -1,0 +1,12 @@
+Name                                Stmts   Miss  Cover
+-------------------------------------------------------
+logparse/__init__.py                    0      0   100%
+logparse/entries/__init__.py            2      0   100%
+logparse/entries/canfd_message.py      23      0   100%
+logparse/entries/log_entry.py          11      0   100%
+logparse/parse.py                      27      0   100%
+test/unit/test_canfdmessage.py         63      0   100%
+test/unit/test_logentry.py             19      1    95%
+test/unit/test_parse.py                67      0   100%
+-------------------------------------------------------
+TOTAL                                 212      1    99%
