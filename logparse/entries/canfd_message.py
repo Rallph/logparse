@@ -1,3 +1,4 @@
+import itertools
 import re
 from logparse.entries import log_entry
 
@@ -34,3 +35,10 @@ class CANFDMessage(log_entry.LogEntry):
 
         return cls(timestamp, original_str, test_num, msg_dir, frame_bytes, msg_length, msg_bytes, msg_str)
 
+    @staticmethod
+    def divide_into_can_fd_test_cases(log_entries):
+        can_fd_entries = [entry for entry in log_entries if isinstance(entry, CANFDMessage)]
+        divided_entries_iterator = itertools.groupby(can_fd_entries, lambda msg: msg.test_num)
+        
+        organized_entries = [(test_num, list(can_fd_messages)) for test_num, can_fd_messages in divided_entries_iterator]
+        return organized_entries
