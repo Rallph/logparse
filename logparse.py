@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 import argparse
 import logparse.parse as parse
+import sys
 
 def main():
     arg_parser = argparse.ArgumentParser(
@@ -12,8 +13,12 @@ def main():
     args = arg_parser.parse_args()
     entries = []
     
-    with open(args.log_file, 'r') as log_file:
-        entries = parse.parse_log_file(log_file)
+    try:
+        with open(args.log_file, 'r') as log_file:
+            entries = parse.parse_log_file(log_file)
+    except UnicodeError:
+        print("ERROR: Specified log file cannot be read")
+        sys.exit(1)
 
     case_groups = parse.divide_into_can_fd_test_cases(entries)
 
