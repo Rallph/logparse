@@ -8,6 +8,7 @@ def main():
     )
     
     arg_parser.add_argument('log_file', help='The input log file to be parsed')
+    arg_parser.add_argument('-o', '--out-file', action='store',dest='out_file', help='File where log analysis results will be stored. By default output stored in {log_file}_analyzed.out if no file specified')
     args = arg_parser.parse_args()
     entries = []
     
@@ -23,7 +24,10 @@ def main():
         if delta:
             deltas.append((case, delta))
 
-    outfile_name = f'{args.log_file}_analyzed.out'
+    if args.out_file:
+        outfile_name = args.out_file
+    else:
+        outfile_name = f'{args.log_file}_analyzed.out'
 
     with open(outfile_name, 'w') as outfile:
         outfile.write(f"{args.log_file}: {len(case_groups) - 1} tests, {len(deltas)} failures\n")
