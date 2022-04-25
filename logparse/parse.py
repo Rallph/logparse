@@ -1,5 +1,5 @@
 """
-Parse log file contents into Python objects
+Parse log file contents into Python objects and perform analysis functions on them
 
 See module entries for supported log message types
 
@@ -7,6 +7,8 @@ Functions:
 
     parse_log_line(string) -> entries.LogEntry
     parse_log_file(file) -> [entries.LogEntry]
+    divide_into_can_fd_test_cases([CANFDMessage]) -> [(int, [CANFDMessage])]
+    compute_test_case_dos_time([CANFDMessage]) -> datetime.timedelta
 
 """
 
@@ -65,6 +67,20 @@ def parse_log_file(log_file):
     return entries
 
 def divide_into_can_fd_test_cases(log_entries):
+        """
+        Groups CANFDMessage objects together by the value of their 'test_num' instance variable
+
+        Parameters
+        ----------
+            log_entries : [CANFDMessage]
+                The list of CANFDMessage objects to organize into groups
+
+        Returns
+        -------
+            organized_entries : [(int, [CANFDMessage])]
+                A list of tuples where each tuple has the test case number as the first element, 
+                and the list of CANFDMessage objects of that test case as the second element
+        """
         can_fd_entries = [entry for entry in log_entries if isinstance(entry, entries.CANFDMessage)]
         divided_entries_iterator = itertools.groupby(can_fd_entries, lambda msg: msg.test_num)
         
@@ -73,6 +89,22 @@ def divide_into_can_fd_test_cases(log_entries):
 
 
 def compute_test_case_dos_time(test_case_messages):
+    """
+    Computes the Denial of Service (DoS) time in a given list of CANFDMessage objects if a DoS is present
+
+    Paramters
+    ---------
+        test_case_messages: [CANFDMessage]
+            The list of CANFDMessage objects to check for a DoS
+
+    Returns
+    -------
+        delta : datetime.timedelta
+            The time difference between the initial request and response message if a DoS is present
+        None 
+            If there is no DoS present, or if either a request or response is missing from the provided CANFDMessage list
+
+    """
     initial_request = next(filter(lambda msg : msg.is_request() , test_case_messages), None)
     response = next(filter(lambda msg : msg.is_response(), test_case_messages), None)
 
