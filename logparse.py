@@ -40,7 +40,7 @@ def main():
         outfile_name = f'{args.log_file}_analyzed.out'
 
     with open(outfile_name, 'w') as outfile:
-        outfile.write(f"{args.log_file}: {len(case_groups) - 1} tests, {len(deltas)} failures\n")
+        outfile.write(f"{args.log_file}: {len(case_groups)} tests, {len(deltas)} failures\n")
         outfile.write('---\nTest Failures\n---\n')
         for case, delta in deltas:
             outfile.write(f"Test case {case}: DoS time {delta}\n")
