@@ -11,7 +11,7 @@ Functions:
 """
 
 
-from .entries import LogEntry
+from logparse import entries
 
 
 def parse_log_line(log_line):
@@ -32,9 +32,11 @@ def parse_log_line(log_line):
         None: if argument 'log_line' cannot be parsed into a log entry
     """
 
-
-    if LogEntry.LOG_ENTRY_REGEX.match(log_line):
-        return LogEntry.from_log_string(log_line)
+    if entries.CANFDMessage.CAN_FD_ENTRY_REGEX.search(log_line):
+        return entries.CANFDMessage.from_log_string(log_line)
+    elif entries.LogEntry.LOG_ENTRY_REGEX.search(log_line):
+        return entries.LogEntry.from_log_string(log_line)
+    
 
 def parse_log_file(log_file):
     """

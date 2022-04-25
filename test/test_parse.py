@@ -1,6 +1,6 @@
 import unittest
 import logparse.parse as parse
-from logparse.entries import LogEntry
+from logparse.entries import LogEntry, CANFDMessage
 import io
 
 class TestParseLogLine(unittest.TestCase):
@@ -15,6 +15,11 @@ class TestParseLogLine(unittest.TestCase):
         not_log_line = "This is not a valid log entry"
         entry = parse.parse_log_line(not_log_line)
         self.assertEqual(entry, None)
+
+    def test_parse_log_line_canfd_message(self):
+        can_fd_line = "2021-02-09 13:10:55.876		CAN-FD	0	Tx	11111111  	8	02 10 03 00 00 00 00 00                 	Instrumentation | Attempt | Instrumentation request_14DA45F1"
+        entry = parse.parse_log_line(can_fd_line)
+        self.assertIsInstance(entry, CANFDMessage)
 
 class TestParseLogFile(unittest.TestCase):
 
