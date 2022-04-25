@@ -23,6 +23,12 @@ class CANFDMessage(log_entry.LogEntry):
         self.msg_bytes = msg_bytes
         self.msg_str = msg_str
 
+    def is_request(self):
+        return self.msg_dir == 'Tx' and self.frame_bytes == '11111111' and self.msg_bytes == '02 10 03 00 00 00 00 00'
+
+    def is_response(self):
+        return self.msg_dir == 'Rx' and self.frame_bytes == '99999999' and self.msg_bytes == '06 50 03 00 64 01 F4 55'
+
     @classmethod
     def from_log_string(cls, log_string):
         timestamp, original_str = cls.LOG_ENTRY_REGEX.findall(log_string)[0]
