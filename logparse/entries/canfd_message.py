@@ -14,8 +14,6 @@ class CANFDMessage(log_entry.LogEntry):
         (.*)                # Message string
     """, re.VERBOSE)
 
-    lol = '2021-02-09 13:10:55.876		CAN-FD	0	Tx	11111111  	8	02 10 03 00 00 00 00 00                 	Instrumentation | Attempt | Instrumentation request_14DA45F1'
-
     def __init__(self, timestamp, original_str, test_num, msg_dir, frame_bytes, msg_length, msg_bytes, msg_str):
         super().__init__(timestamp, original_str)
         self.test_num = test_num
